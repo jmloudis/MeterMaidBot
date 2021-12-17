@@ -7,6 +7,8 @@ import PIL.Image
 import keyboard
 import pyautogui
 from datetime import date
+
+import self as self
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
@@ -19,123 +21,126 @@ docxFile = "C:/Users/jordan/Documents/Work/PopScript.docx"  # main document
 hotkey = 'ctrl+shift+z'  # use this combination anytime while script is running
 
 
-def picture():
-    # pops = int(input("Enter the amount of POPS: "))
+class MeterMaidBot:
 
-    # today_date = date.today()
+    def __init__(self):
+        self.pops = int(input("Enter the amount of POPS: "))
 
-    amount = []
-    x = 0
+        # today_date = date.today()
 
-    while True:
+        self.amount = []
+        self.x = 0
 
-        try:
-            hwnd = win32gui.GetForegroundWindow()  # active window
-            bbox = win32gui.GetWindowRect(hwnd)  # bounding rectangle
+    def picture(self):
 
-            # capture screen
-            shot = pyautogui.screenshot(region=bbox)  # take screenshot, active app
-            shot.save(shotFile)  # save screenshot
+        while True:
 
-            # Edit Screenshot
-            im = PIL.Image.open(shotFile)
-            crop = im.crop((47, 138, 757, 693))
-            crop.save(shotFile, quality=100)
+            try:
+                hwnd = win32gui.GetForegroundWindow()  # active window
+                bbox = win32gui.GetWindowRect(hwnd)  # bounding rectangle
 
-            for i in range(x, 13):
+                # capture screen
+                shot = pyautogui.screenshot(region=bbox)  # take screenshot, active app
+                shot.save(shotFile)  # save screenshot
 
-                if keyboard.is_pressed(hotkey):
+                # Edit Screenshot
+                im = PIL.Image.open(shotFile)
+                crop = im.crop((47, 138, 757, 693))
+                crop.save(shotFile, quality=100)
 
-                    x += 1
-                    amount.append(x)
-                    print("you pressed the hotkey")
-                    print(x)
-                    print(amount)
+                for i in range(self.x, self.pops):
 
-                    if x % 2:
+                    if keyboard.is_pressed(hotkey):
 
-                        doc = Document(docxFile)  # open document
+                        self.x += 1
+                        self.amount.append(self.x)
+                        print("you pressed the hotkey")
+                        print(self.x)
+                        print(self.amount)
 
-                        # Header - Ex. Dish 8
-                        p = doc.add_paragraph()
-                        p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-                        r = p.add_run("Dish 8")
-                        r.font.size = Pt(24)
-                        r.bold = False
+                        if self.x % 2:
 
-                        # Sub-header - Ex. Cables 1 & 2
-                        p = doc.add_paragraph()
-                        p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-                        r = p.add_run("Cables 1 & 2")
-                        r.font.size = Pt(16)
-                        r.bold = False
+                            doc = Document(docxFile)  # open document
 
-                        # Label 1 - Date:
-                        doc.add_paragraph("Date: 12/9/2021")
+                            # Header - Ex. Dish 8
+                            p = doc.add_paragraph()
+                            p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                            r = p.add_run("Dish 8")
+                            r.font.size = Pt(24)
+                            r.bold = False
 
-                        # Label 2 - Location:
-                        doc.add_paragraph("Location: Outside")
+                            # Sub-header - Ex. Cables 1 & 2
+                            p = doc.add_paragraph()
+                            p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                            r = p.add_run("Cables 1 & 2")
+                            r.font.size = Pt(16)
+                            r.bold = False
 
-                        # Label -3 - Status:
-                        doc.add_paragraph("Status: Pre 5G-Filter")
+                            # Label 1 - Date:
+                            doc.add_paragraph("Date: 12/9/2021")
 
-                        # Sections - Horizontal
-                        p = doc.add_paragraph()
-                        p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-                        r = p.add_run("Horizontal - ")
-                        r.bold = True
+                            # Label 2 - Location:
+                            doc.add_paragraph("Location: Outside")
 
-                        doc.add_picture(shotFile, width=Inches(6.5))  # add image, default 6.5 inches wide
+                            # Label -3 - Status:
+                            doc.add_paragraph("Status: Pre 5G-Filter")
 
-                        doc.save(docxFile)  # update document
+                            # Sections - Horizontal
+                            p = doc.add_paragraph()
+                            p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                            r = p.add_run("Horizontal - ")
+                            r.bold = True
 
-                        print('Done capture.')
-                        print("Odd number")
+                            doc.add_picture(shotFile, width=Inches(6.5))  # add image, default 6.5 inches wide
 
-                    else:
+                            doc.save(docxFile)  # update document
 
-                        doc = Document(docxFile)  # open document
+                            print('Done capture.')
+                            print("Odd number")
 
-                        # Sections - Horizontal
-                        p = doc.add_paragraph()
-                        p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-                        r = p.add_run("Vertical - ")
-                        r.bold = True
+                        else:
 
-                        doc.add_picture(shotFile, width=Inches(6.5))  # add image, default 6.5 inches wide
+                            doc = Document(docxFile)  # open document
 
-                        doc.save(docxFile)  # update document
-                        print("Even Number")
+                            # Sections - Horizontal
+                            p = doc.add_paragraph()
+                            p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                            r = p.add_run("Vertical - ")
+                            r.bold = True
 
-                    time.sleep(0.25)
+                            doc.add_picture(shotFile, width=Inches(6.5))  # add image, default 6.5 inches wide
 
-        except Exception as e:  # allow program to keep running
+                            doc.save(docxFile)  # update document
+                            print("Even Number")
 
-            print("Capture Error:", e)
+                        time.sleep(0.25)
 
+            except Exception as e:  # allow program to keep running
 
-def coordinates():
-    try:
-        mouse = pyautogui.position()
+                print("Capture Error:", e)
 
-        print(mouse)
+    # def coordinates():
+    #
+    #     try:
+    #         mouse = pyautogui.position()
+    #         print(mouse)
+    #         print('Done capture.')
+    #
+    #     except Exception as e:  # allow program to keep running
+    #
+    #         print("Capture Error:", e)
+    #
+    #     return mouse
 
-        print('Done capture.')
+    # Change for the hotkey to work for the function
+    keyboard.add_hotkey(hotkey, picture)
+    print("Started. Waiting for", hotkey)
+    keyboard.wait()
 
-    except Exception as e:  # allow program to keep running
-
-        print("Capture Error:", e)
-
-    return mouse
-
-
-# Change for the hotkey to work for the function
-
-keyboard.add_hotkey(hotkey, picture)
-print("Started. Waiting for", hotkey)
-keyboard.wait()
+def main():
+    print("main")
 
 if __name__ == '__main__':
-
-    picture()
+    main()
+    # picture()
     # coordinates()
