@@ -42,7 +42,7 @@ def picture():
             crop = im.crop((47, 138, 757, 693))
             crop.save(shotFile, quality=100)
 
-            for i in range(x, 10):
+            for i in range(x, 13):
 
                 if keyboard.is_pressed(hotkey):
 
@@ -71,10 +71,10 @@ def picture():
                         r.bold = False
 
                         # Label 1 - Date:
-                        doc.add_paragraph("Date: ")
+                        doc.add_paragraph("Date: 12/9/2021")
 
                         # Label 2 - Location:
-                        doc.add_paragraph("Location: outside")
+                        doc.add_paragraph("Location: Outside")
 
                         # Label -3 - Status:
                         doc.add_paragraph("Status: Pre 5G-Filter")
@@ -104,11 +104,10 @@ def picture():
 
                         doc.add_picture(shotFile, width=Inches(6.5))  # add image, default 6.5 inches wide
 
-
                         doc.save(docxFile)  # update document
                         print("Even Number")
 
-                    time.sleep(0.15)
+                    time.sleep(0.25)
 
         except Exception as e:  # allow program to keep running
 
@@ -130,48 +129,13 @@ def coordinates():
     return mouse
 
 
-def new_list():
-    amount = []
-    x = 0
-
-    print("Started. Waiting for hotkey")
-
-    while True:
-
-        try:
-
-            for i in range(x, 10):
-
-                if keyboard.is_pressed(hotkey):
-
-                    x += 1
-                    amount.append(x)
-                    print("you pressed the hotkey")
-                    print(x)
-                    print(amount)
-                    if x % 2:
-                        print("Odd number")
-                    else:
-                        print("Even Number")
-
-                    time.sleep(0.25)
-
-                if x == 10:
-                    sys.exit()
-
-
-        except:
-
-            break
-
-
 # Change for the hotkey to work for the function
+
 keyboard.add_hotkey(hotkey, picture)
-# keyboard.on_press(hotkey)
 print("Started. Waiting for", hotkey)
 keyboard.wait()
 
 if __name__ == '__main__':
+
     picture()
-    # new_list()
     # coordinates()
