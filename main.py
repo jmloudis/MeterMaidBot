@@ -136,5 +136,6 @@ print("Started. Waiting for", hotkey)
 keyboard.wait()
 
 if __name__ == '__main__':
+
     picture()
     # coordinates()
