@@ -21,7 +21,9 @@ hotkey = 'ctrl+shift+z'  # use this combination anytime while script is running
 
 def picture():
     # pops = int(input("Enter the amount of POPS: "))
-    today_date = date.today()
+
+    # today_date = date.today()
+
     amount = []
     x = 0
 
