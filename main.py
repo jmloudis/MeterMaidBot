@@ -29,17 +29,19 @@ class MeterMaidBot:
         print(self)
 
     def test_method(self):
-        MMB = MeterMaidBot()
-        k = keyboard.get_hotkey_name(MMB.hotkey)
+        mmb = MeterMaidBot()
+        k = keyboard.get_hotkey_name(mmb.hotkey)
         print("Test Method ")
         print(k)
         return self
 
     def picture(self):
-        MMB = MeterMaidBot()
+
+        mmb = MeterMaidBot()
         x = 0
         amount = []
         pops = int(input("Enter the amount of POPS: "))
+        print("Started. Waiting for", mmb.hotkey)
 
         while True:
 
@@ -49,16 +51,16 @@ class MeterMaidBot:
 
                 # capture screen
                 shot = pyautogui.screenshot(region=bbox)  # take screenshot, active app
-                shot.save(MMB.shotFile)  # save screenshot
+                shot.save(mmb.shotFile)  # save screenshot
 
                 # Edit Screenshot
-                im = PIL.Image.open(MMB.shotFile)
+                im = PIL.Image.open(mmb.shotFile)
                 crop = im.crop((47, 138, 757, 693))
-                crop.save(MMB.shotFile, quality=100)
+                crop.save(mmb.shotFile, quality=100)
 
                 for i in range(x, pops):
 
-                    if keyboard.is_pressed(MMB.hotkey):
+                    if keyboard.is_pressed(mmb.hotkey):
 
                         x += 1
                         amount.append(x)
@@ -68,7 +70,7 @@ class MeterMaidBot:
 
                         if x % 2:
 
-                            doc = Document(MMB.docxFile)  # open document
+                            doc = Document(mmb.docxFile)  # open document
 
                             # Header - Ex. Dish 8
                             p = doc.add_paragraph()
@@ -99,16 +101,16 @@ class MeterMaidBot:
                             r = p.add_run("Horizontal - ")
                             r.bold = True
 
-                            doc.add_picture(MMB.shotFile, width=Inches(6.5))  # add image, default 6.5 inches wide
+                            doc.add_picture(mmb.shotFile, width=Inches(6.5))  # add image, default 6.5 inches wide
 
-                            doc.save(MMB.docxFile)  # update document
+                            doc.save(mmb.docxFile)  # update document
 
                             print('Done capture.')
                             print("Odd number")
 
                         else:
 
-                            doc = Document(MMB.docxFile)  # open document
+                            doc = Document(mmb.docxFile)  # open document
 
                             # Sections - Horizontal
                             p = doc.add_paragraph()
@@ -116,9 +118,9 @@ class MeterMaidBot:
                             r = p.add_run("Vertical - ")
                             r.bold = True
 
-                            doc.add_picture(MMB.shotFile, width=Inches(6.5))  # add image, default 6.5 inches wide
+                            doc.add_picture(mmb.shotFile, width=Inches(6.5))  # add image, default 6.5 inches wide
 
-                            doc.save(MMB.docxFile)  # update document
+                            doc.save(mmb.docxFile)  # update document
                             print("Even Number")
 
                         time.sleep(0.25)
@@ -126,6 +128,7 @@ class MeterMaidBot:
             except Exception as e:  # allow program to keep running
 
                 print("Capture Error:", e)
+                return self
 
     # def config():
     #     keyboard.add_hotkey(hotkey, MeterMaidBot.test_method)
