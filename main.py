@@ -25,7 +25,7 @@ class MeterMaidBot:
 
     def __init__(self):
         self.model = "model"
-        print("This is the constructor")
+        print("This is the constructor for main.py")
         print(self)
 
     def test_method(self):
@@ -41,6 +41,7 @@ class MeterMaidBot:
         x = 0
         amount = []
         pops = int(input("Enter the amount of POPS: "))
+        dishNum = input("Enter Dish Number:")
         print("Started. Waiting for", mmb.hotkey)
 
         while True:
@@ -75,7 +76,7 @@ class MeterMaidBot:
                             # Header - Ex. Dish 8
                             p = doc.add_paragraph()
                             p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-                            r = p.add_run("Dish 8")
+                            r = p.add_run("Dish " + dishNum)
                             r.font.size = Pt(24)
                             r.bold = False
 
@@ -87,13 +88,13 @@ class MeterMaidBot:
                             r.bold = False
 
                             # Label 1 - Date:
-                            doc.add_paragraph("Date: 12/9/2021")
+                            doc.add_paragraph("Date: 12/20/2021")
 
                             # Label 2 - Location:
                             doc.add_paragraph("Location: Outside")
 
                             # Label -3 - Status:
-                            doc.add_paragraph("Status: Pre 5G-Filter")
+                            doc.add_paragraph("Status: Post 5G-Filter")
 
                             # Sections - Horizontal
                             p = doc.add_paragraph()
@@ -138,7 +139,6 @@ class MeterMaidBot:
 
 def main():
     MeterMaidBot.picture(self)
-
 
 if __name__ == '__main__':
     main()
