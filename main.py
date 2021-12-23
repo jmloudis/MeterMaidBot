@@ -78,6 +78,7 @@ class MeterMaidBot:
                             p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
                             r = p.add_run("Dish " + dishNum)
                             r.font.size = Pt(24)
+
                             r.bold = False
 
                             # Sub-header - Ex. Cables 1 & 2
