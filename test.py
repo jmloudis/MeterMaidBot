@@ -46,7 +46,7 @@ class MeterMaidBot:
         ttk.Label(self.frame_content, text='Choose date').grid(row=5, column=0, columnspan=2, padx=5, sticky='sw')
 
         # Create Pops Int Entry field
-        self.spin1 = ttk.Spinbox(self.frame_content, style="My.TSpinbox", from_=1, to=48)
+        self.spin1 = ttk.Spinbox(self.frame_content, style="My.TSpinbox", from_=8, to=24, increment=8)
 
         # Create Dish String Entry field
         # Change to=attribute depending on how many dishes their are
@@ -54,8 +54,8 @@ class MeterMaidBot:
 
         # Create Date entry
         self.v = StringVar(self.frame_content, tkcalendar.Calendar.date.today().strftime("%d/%m/%y"))
-        self.cal1 = tkcalendar.Calendar(self.frame_content, selectmode = 'day',year = 2022, month = 1,
-               day = 1, textvariable=self.v)
+        self.cal1 = tkcalendar.Calendar(self.frame_content, selectmode='day', year=2022, month=1,
+                                        day=1, textvariable=self.v)
 
         # Format grid layout
         self.spin1.grid(row=2, column=0, padx=5, sticky='sw')
@@ -98,8 +98,14 @@ class MeterMaidBot:
                 bbox = win32gui.GetWindowRect(hwnd)  # bounding rectangle
 
                 # capture screen
+
                 shot = pyautogui.screenshot(region=bbox)  # take screenshot, active app
                 shot.save(self.shotFile)  # save screenshot
+
+                # Edit Screenshot
+                im = PIL.Image.open(self.shotFile)
+                crop = im.crop((47, 138, 757, 693))
+                crop.save(self.shotFile, quality=100)
 
                 for i in range(x, pops):
 
@@ -111,7 +117,7 @@ class MeterMaidBot:
                         print(x)
                         print(amount)
 
-                        if x % 2:
+                        if x % 2 == 1:
 
                             doc = Document(self.docxFile)  # open document
 
@@ -126,47 +132,76 @@ class MeterMaidBot:
                             p = doc.add_paragraph()
                             p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
-                            if x <= 2:
+                            # for i in range(pops):
+                            #    print("In Range" + " " + str(i))
+
+                            if pops == 8:
+                                print("There are 8 pops ")
                                 print("Cables 1 & 2")
                                 r = p.add_run("Cables 1 & 2")
                                 r.font.size = Pt(16)
                                 r.bold = False
 
-                            if (x > 2) & (x <= 4):
-                                print("Cables 3 & 4")
-                                r = p.add_run("Cables 3 & 4")
-                                r.font.size = Pt(16)
-                                r.bold = False
+                            if pops == 16:
 
-                            if (x > 4) & (x <= 6):
-                                print("Cables 5 & 6")
-                                r = p.add_run("Cables 5 & 6")
-                                r.font.size = Pt(16)
-                                r.bold = False
+                                print("There are 16 pops ")
+
+                                if x in (1, 5, 9, 13):
+                                    print("Cables 1 & 2")
+                                    r = p.add_run("Cables 1 & 2")
+                                    r.font.size = Pt(16)
+                                    r.bold = False
+
+                                elif x in (3, 7, 11, 15):
+                                    print("Cables 3 & 4")
+                                    r = p.add_run("Cables 3 & 4")
+                                    r.font.size = Pt(16)
+                                    r.bold = False
+
+                            if pops == 24:
+
+                                print("There are 24 pops ")
+
+                                if x in (1, 7, 13, 19):
+                                    print("Cables 1 & 2")
+                                    r = p.add_run("Cables 1 & 2")
+                                    r.font.size = Pt(16)
+                                    r.bold = False
+
+                                elif x in (3, 9, 15, 21):
+                                    print("Cables 3 & 4")
+                                    r = p.add_run("Cables 3 & 4")
+                                    r.font.size = Pt(16)
+                                    r.bold = False
+
+                                elif x in (5, 11, 17, 23):
+                                    print("Cables 5 & 6")
+                                    r = p.add_run("Cables 5 & 6")
+                                    r.font.size = Pt(16)
+                                    r.bold = False
 
                             # Label 1 - Date:
                             doc.add_paragraph("Date: {}".format(self.v.get()))
-
                             print(str(self.v.get()))
 
                             # Label 2 - Location:
 
                             if x < pops / 4:
-                                #doc.add_paragraph("Location: Outside")
+                                # doc.add_paragraph("Location: Outside")
                                 print("less than a 1/4")
 
-                            if x > pops / 4:
-                                #doc.add_paragraph("Location: Inside")
-                                print("more than 1 / 4")
+                            if (x > pops / 4) & (x < pops / 2):
+                                # doc.add_paragraph("Location: Inside")
+                                print("more than 1 / 4 and less than 1 / 2")
 
                             doc.add_paragraph("Location: Outside")
 
                             # Label -3 - Status:
 
-
                             doc.add_paragraph("Status: Pre 5G-Filter")
 
                             # Sections - Horizontal
+
                             p = doc.add_paragraph()
                             p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
                             r = p.add_run("Horizontal - ")
@@ -208,6 +243,7 @@ class MeterMaidBot:
         print(k)
         return self
 
+
 def main():
 
     root = Tk()
@@ -215,6 +251,6 @@ def main():
     root.mainloop()
 
 
-
 if __name__ == '__main__':
+
     main()
